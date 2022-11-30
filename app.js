@@ -78,6 +78,7 @@ app.get('/chat', (req, res) => {
     })
 
 })
+//creates and establishes a websocket connection
 io.sockets.on('connection', function(socket) {
     socket.on('chat_message', function(message) {
         io.emit('chat_message', message);
@@ -200,8 +201,38 @@ app.post('/login', (req, res) => {
 app.get('/poll', (req, res) => {
     res.render('pages/poll', {
         title: 'Polls',
-        color: '"dark blue"'
+        color: '"dark blue"',
+        io: io
     })
+})
+
+let pollResponses = {a:0, b:0, c:0, d:0};
+app.post('/poll', (req, res) => {
+
+    let answer = req.body.poll;
+    if(answer == 'A'){
+    pollResponses.a++
+    console.log(pollResponses);
+  }else if(answer == 'B'){
+    pollResponses.b++
+    console.log(pollResponses);
+  }else if(answer == 'C'){
+    pollResponses.c++
+    console.log(pollResponses);
+  }else if(answer == 'D'){
+    pollResponses.d++
+    console.log(pollResponses);
+}else{
+    console.log("NOT CORRECT");
+}
+
+io.sockets.on('connection', function(socket) {
+socket.on('poll_response', function(answer) {
+  io.emit('poll_response', answer);
+  console.log(answer);
+})
+});
+res.redirect('/poll');
 })
 // Q
 

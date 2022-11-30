@@ -1,4 +1,4 @@
-<%- include('../partials/header_content') %>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -6,8 +6,24 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 </head>
+<style>
+    #poll {
+color: black;
+    }
+</style>
 <body>
-<p>Polls Placeholder</p>
+    <div id="poll">
+        <form id="poll" action="/poll" method="post">
+        <input id="poll" type="submit" name="poll" value="A">
+        <input id="poll" type="submit" name="poll" value="B">
+        <input id="poll" type="submit" name="poll" value="C">
+        <input id="poll" type="submit" name="poll" value="D">
+        </form>
+    </div>
 </body>
+<script>
+ var socket = io.connect('http://localhost:4000');
+ socket.emit('poll_response', $('#poll').val());
+
+</script>
 </html>
-<%- include('../partials/footer_content') %>
